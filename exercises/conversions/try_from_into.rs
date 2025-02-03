@@ -27,8 +27,6 @@ enum IntoColorError {
     IntConversion,
 }
 
-// I AM NOT DONE
-
 // Your task is to complete this implementation and return an Ok result of inner
 // type Color. You need to create an implementation for a tuple of three
 // integers, an array of three integers, and a slice of integers.
@@ -41,6 +39,28 @@ enum IntoColorError {
 impl TryFrom<(i16, i16, i16)> for Color {
     type Error = IntoColorError;
     fn try_from(tuple: (i16, i16, i16)) -> Result<Self, Self::Error> {
+        let (red, green, blue) = tuple;
+        // 检查 red 是否在 0..=255 范围内
+        if red < 0 || red > 255 {
+            return Err(IntoColorError::IntConversion);
+        }
+
+        // 检查 green 是否在 0..=255 范围内
+        if green < 0 || green > 255 {
+            return Err(IntoColorError::IntConversion);
+        }
+
+        // 检查 blue 是否在 0..=255 范围内
+        if blue < 0 || blue > 255 {
+            return Err(IntoColorError::IntConversion);
+        }
+
+        // 如果所有值都在范围内，构造并返回 Color
+        Ok(Color {
+            red: red as u8,
+            green: green as u8,
+            blue: blue as u8,
+        })
     }
 }
 
@@ -48,6 +68,26 @@ impl TryFrom<(i16, i16, i16)> for Color {
 impl TryFrom<[i16; 3]> for Color {
     type Error = IntoColorError;
     fn try_from(arr: [i16; 3]) -> Result<Self, Self::Error> {
+        if arr[0] < 0 || arr[0] > 255 {
+            return Err(IntoColorError::IntConversion);
+        }
+
+        // 检查绿色分量是否在有效范围内
+        if arr[1] < 0 || arr[1] > 255 {
+            return Err(IntoColorError::IntConversion);
+        }
+
+        // 检查蓝色分量是否在有效范围内
+        if arr[2] < 0 || arr[2] > 255 {
+            return Err(IntoColorError::IntConversion);
+        }
+
+        // 如果所有分量都有效，则创建 Color 对象
+        Ok(Color {
+            red: arr[0] as u8,
+            green: arr[1] as u8,
+            blue: arr[2] as u8,
+        })
     }
 }
 
@@ -55,6 +95,32 @@ impl TryFrom<[i16; 3]> for Color {
 impl TryFrom<&[i16]> for Color {
     type Error = IntoColorError;
     fn try_from(slice: &[i16]) -> Result<Self, Self::Error> {
+        // 检查切片长度是否为 3
+        if slice.len() != 3 {
+            return Err(IntoColorError::BadLen);
+        }
+
+        // 检查红色分量是否在有效范围内
+        if slice[0] < 0 || slice[0] > 255 {
+            return Err(IntoColorError::IntConversion);
+        }
+
+        // 检查绿色分量是否在有效范围内
+        if slice[1] < 0 || slice[1] > 255 {
+            return Err(IntoColorError::IntConversion);
+        }
+
+        // 检查蓝色分量是否在有效范围内
+        if slice[2] < 0 || slice[2] > 255 {
+            return Err(IntoColorError::IntConversion);
+        }
+
+        // 如果所有分量都有效，则创建 Color 对象
+        Ok(Color {
+            red: slice[0] as u8,
+            green: slice[1] as u8,
+            blue: slice[2] as u8,
+        })
     }
 }
 

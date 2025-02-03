@@ -6,7 +6,7 @@
 // Execute `rustlings hint iterators2` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
+use std::fmt::format;
 
 // Step 1.
 // Complete the `capitalize_first` function.
@@ -15,7 +15,7 @@ pub fn capitalize_first(input: &str) -> String {
     let mut c = input.chars();
     match c.next() {
         None => String::new(),
-        Some(first) => ???,
+        Some(first) => format!("{}{}", first.to_uppercase(), c.as_str()),
     }
 }
 
@@ -24,7 +24,7 @@ pub fn capitalize_first(input: &str) -> String {
 // Return a vector of strings.
 // ["hello", "world"] -> ["Hello", "World"]
 pub fn capitalize_words_vector(words: &[&str]) -> Vec<String> {
-    vec![]
+    words.iter().map(|&word| capitalize_first(word)).collect()
 }
 
 // Step 3.
@@ -32,7 +32,19 @@ pub fn capitalize_words_vector(words: &[&str]) -> Vec<String> {
 // Return a single string.
 // ["hello", " ", "world"] -> "Hello World"
 pub fn capitalize_words_string(words: &[&str]) -> String {
-    String::new()
+    // 计算所需容量以避免多次重新分配
+    let total_length: usize = words.iter().map(|s| s.len()).sum();
+    let mut ans = String::with_capacity(total_length); // 留出空格的位置
+
+    for (i, &word) in words.iter().enumerate() {
+        if let Some(first_char) = word.chars().next() {
+            ans.extend(first_char.to_uppercase());
+            ans.push_str(&word[first_char.len_utf8()..]);
+        } else {
+            ans.push_str(word);
+        }
+    }
+    ans
 }
 
 #[cfg(test)]

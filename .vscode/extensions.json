@@ -1,5 +1,6 @@
 {
     "recommendations": [
         "rust-lang.rust-analyzer"
-    ]
+    ],
+	"rust-analyzer.linkedProjects":["rust-rustlings-2024-autumn-daoshi1593/Cargo.toml"]
 }
